@@ -2,9 +2,19 @@
     <a class="navbar-brand" href="#">AuthApp</a>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" href="#">Home</a>
-        <a class="nav-link" href="#">Precios</a>
-        <a class="nav-link" href="#">Protegida</a>
+        <a class="nav-link" [routerLink]="['/home']" routerLinkActive="router-link-active" >Home</a>
+        <a class="nav-link" [routerLink]="['/precios']" routerLinkActive="router-link-active">Precios</a>
+        <div *ngIf="auth.isAuthenticated$ | async;">
+        <a class="nav-link" [routerLink]="['/protegida']" routerLinkActive="router-link-active">Protegida</a>
+        </div>
       </div>
     </div>
+    <div *ngIf="auth.isAuthenticated$ | async;else other_content">
+      <button (click)="auth.logout();" class="btn btn-primary">Log out!</button>
+    </div>
+    <ng-template #other_content>
+      <div>
+        <button (click)="auth.loginWithRedirect();" class="btn btn-primary">Log in!</button>
+      </div>
+    </ng-template>
   </nav>
